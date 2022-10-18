@@ -1,0 +1,10 @@
+.wrapper{
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 20px;
+    & img {
+        object-fit: cover;
+        width: 100%;
+    }
+}
+
