@@ -8,3 +8,32 @@
     }
 }
 
+.anime{
+    animation: fade infinite 4s;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.loading-img{
+    animation: loading-img 1s;
+}
+
+@keyframes loading-img {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

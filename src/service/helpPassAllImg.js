@@ -1,4 +1,5 @@
-const helpPassAllImg = (context) => {
+
+const helpPassAllImg = (context, format) => {
     
     function importAll(context) {
         let images = {};
@@ -11,9 +12,8 @@ const helpPassAllImg = (context) => {
         const arrImg = [];
         let lengthArr = Object.keys(images).length;
         for(let i = 1; i <= lengthArr; i++) {
-            arrImg.push(images[`${i}.jpg`].default)
+            arrImg.push(images[`${i}.${format}`].default)
         }
-
         return arrImg;
     }
 
