@@ -1,61 +1,57 @@
+import {useState, Component} from 'react';
+import {Container} from 'react-bootstrap';
 import './App.scss';
-import { useEffect } from 'react';
-import helpPassAllImg from './service/helpPassAllImg';
-import box from './resource/spiner/box.jpg';
 
-const allJpg = helpPassAllImg(require.context('./resource/all-weddings/DA/jpg/', false, /\.(png|jpe?g|svg|webp)$/), 'jpg');
-const allWebP = helpPassAllImg(require.context('./resource/all-weddings/DA/webP/', false, /\.(png|jpe?g|svg|webp)$/), 'webp');
-const allImg = [];
-
-for(let i = 0; i < allJpg.length; i++) {
-    let arr = [];
-    arr.push(allJpg[i]);
-    arr.push(allWebP[i]);
-    allImg.push(arr);
+const log = (e) => {
+    console.log('target',e.target.value);
 }
 
-const App = () => {
-    useEffect(() => {
-        const imgObserver = new IntersectionObserver(entryCall, {rootMargin: '0px 0px 800px 0px'});
-        const pictureAll = document.querySelectorAll('picture');
-        pictureAll.forEach(item => imgObserver.observe(item));
-    },[]);
-
-    const entryCall = (entryAll, observer) => {
-        entryAll.forEach(item => {
-            if(item.isIntersecting) {
-                const img =  item.target.querySelector('img');
-                const source = item.target.querySelector('source');
-                img.src = img.dataset.src;
-                source.srcset = source.dataset.src;
-                img.onload = () => {
-                    item.target.className = 'loading-img';
-                    img.removeAttribute('height');
-                }
-                observer.unobserve(item.target);
-            }
-        })
-    }
-
-    const items = allImg.map(item => {
-        return(
-            <picture key={item} className='anime'>
-                <source type="image/webp" key={item[1]} data-src={item[1]}/>
-                <img src={box} alt={'img'} key={item} data-src={item[0]} height={'600px'}/>
-            </picture>
-            
-        )
+function App() {
+    const [data, setData] = useState({
+        mail: "name@example.com",
+        text: 'some text'
     });
 
-    
+    return (
+        <>
+            <Form mail={data.mail} text={data.text}/>
+            <button 
+                onClick={() => setData({
+                    mail: "second@example.com",
+                    text: 'another text'
+                })}>
+                Click me
+            </button>
+        </>
+    );
+}
 
-    return(
-            <div className="wrapper">
-                {items}
-            </div>
+const Form = (props) => {
+
+    return (
+        <Container>
+            <form className="w-50 border mt-5 p-3 m-auto">
+                <div className="mb-3">
+                    <label htmlFor="exampleFormControlInput1" className="form-label mt-3">Email address</label>
+                    <InputComponent mail={props.mail}/>
+                    </div>
+                    <div className="mb-3">
+                    <label htmlFor="exampleFormControlTextarea1" className="form-label">Example textarea</label>
+                    <textarea value={props.text} className="form-control" id="exampleFormControlTextarea1" rows="3" onChange={log}></textarea>
+                </div>
+            </form>
+        </Container>
     )
 }
 
+class InputComponent extends Component {
+    render() {
+        return(
+            <input value={this.props.mail} type="email" className='form-control' id="exampleFormControlInput1" placeholder="name@example.com" onChange={log}/>
+        )
+    }
+}
+
+
+
 export default App;
-
-
